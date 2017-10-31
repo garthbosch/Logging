@@ -1,0 +1,35 @@
+<project>
+
+    <target name="clean">
+        <delete dir="out/production"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="out/production"/>
+        <javac srcdir="src" destdir="out/production">
+            <classpath>
+                <fileset dir="lib">
+                    <include name="*.jar" />
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="out/jar"/>
+        <jar destfile="out/jar/logging.jar" basedir="out/production">
+            <manifest>
+                <attribute name="Main-Class" value="gfb.logging.Logging"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="copy-dependencies">
+		<copy todir="lib">
+			<fileset dir="out/jar" includes="**/*.jar" excludes="**/*sources.jar, **/*javadoc.jar" />
+		</copy>
+	</target>
+
+    <target name="all" depends="jar, copy-dependencies" />
+    
+</project>
